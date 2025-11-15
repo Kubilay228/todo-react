@@ -6,10 +6,11 @@ const TodoItem = (props) => {
         isDone,
         onDeleteTaskButtonClick,
         ontaskCompleteChange,
+        ref,
     } = props
 
     return (
-        <li className={`todo-item ${className}`}>
+        <li className={`todo-item ${className}`} ref={ref}>
             <input
                 className="todo-item__checkbox"
                 id={id}

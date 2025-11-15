@@ -6,6 +6,7 @@ const AddTaskForm = (props) => {
         addTask,
         setNewTaskItem,
         newTaskItem,
+        newTaskInputRef,
     } = props
 
     return (
@@ -22,6 +23,7 @@ const AddTaskForm = (props) => {
                 addTask={addTask}
                 value={newTaskItem}
                 onInput={(e) => setNewTaskItem(e.target.value)}
+                ref={newTaskInputRef}
             />
             <Button
                 type='submite'
