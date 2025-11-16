@@ -1,13 +1,15 @@
 import Field from "./Field"
 import Button from "./Button"
+import { useContext } from "react"
+import { TaskContext } from "../context/TaskContext"
 
-const AddTaskForm = (props) => {
+const AddTaskForm = () => {
     const {
         addTask,
         setNewTaskItem,
         newTaskItem,
         newTaskInputRef,
-    } = props
+    } = useContext(TaskContext)
 
     return (
         <form className="todo__form"
