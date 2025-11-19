@@ -1,63 +1,63 @@
-import { useEffect, useState } from "react"
+import { useState, useEffect } from 'react'
 
-const matchPass = (path, rote) => {
-    const pathParts = path.split('/')
-    const routePath = rote.split('/')
+const matchPath = (path, route) => {
+  const pathParts = path.split('/')
+  const routeParts = route.split('/')
 
-    if (pathParts.length !== routePath.length) {
-        return null
+  if (pathParts.length !== routeParts.length) {
+    return null
+  }
+
+  const params = {}
+
+  for (let i = 0; i < routeParts.length; i++) {
+    if (routeParts[i].startsWith(':')) {
+      const paramName = routeParts[i].slice(1)
+
+      params[paramName] = pathParts[i]
+    } else if (routeParts[i] !== pathParts[i]) {
+      return null
     }
+  }
 
-    const params = {}
-
-    for (let i = 0; i < routePath.length; i++) {
-        if (routePath[i].startsWith(':')) {
-            const paramName = routePath[i].slice(1)
-
-            params[paramName] = pathParts[i]
-        } else if (routePath[i] !== pathParts[i]) {
-            return null
-        }
-    }
-    return params
+  return params
 }
 
 export const useRoute = () => {
-    const [path, setPath] = useState(window.location.pathname)
+  const [path, setPath] = useState(window.location.pathname)
 
-    useEffect(() => {
-        const onLocationChange = () => {
-            setPath(window.location.pathname)
-        }
-
-        window.addEventListener('popstate', onLocationChange)
-
-        return () => {
-            window.removeEventListener('popstate', onLocationChange)
-        }
-    }, [])
-
-    return path
-}
-
-
-const Router = (props) => {
-    const { routes } = props
-    const path = useRoute()
-
-    for (const route in routes) {
-        const params = matchPass(path, route)
-
-        if (params) {
-            const Page = routes[route]
-
-            return <Page params={params} />
-        }
+  useEffect(() => {
+    const onLocationChange = () => {
+      setPath(window.location.pathname)
     }
 
-    const NotFound = routes['*']
+    window.addEventListener('popstate', onLocationChange)
 
-    return <NotFound />
+    return () => {
+      window.removeEventListener('popstate', onLocationChange)
+    }
+  }, [])
+
+  return path
+}
+
+const Router = (props) => {
+  const { routes } = props
+  const path = useRoute()
+
+  for (const route in routes) {
+    const params = matchPath(path, route)
+
+    if (params) {
+      const Page = routes[route]
+
+      return <Page params={params} />
+    }
+  }
+
+  const NotFound = routes['*']
+
+  return <NotFound />
 }
 
 export default Router

@@ -1,12 +1,12 @@
-import { TaskProvider } from "../context/TaskContext"
-import Todo from './../components/Todo';
+import {TasksProvider} from '../context/TasksContext'
+import Todo from '../components/Todo/Todo'
 
 const TasksPage = () => {
-    return (
-        <TaskProvider>
-            <Todo />
-        </TaskProvider>
-    )
+  return (
+    <TasksProvider>
+      <Todo />
+    </TasksProvider>
+  )
 }
 
 export default TasksPage
